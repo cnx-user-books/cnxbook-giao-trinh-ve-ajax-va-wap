@@ -1,0 +1,235 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Ứng dụng AJAX xây dựng module Từ điển trực tuyến</title>
+  <metadata>
+  <md:content-id>m28953</md:content-id><md:title>Ứng dụng AJAX xây dựng module Từ điển trực tuyến</md:title>
+  <md:abstract>Sau khi nắm được nguyên lý của AJAX, bạn đọc có thể sử dụng một công cụ lập trình web bất kỳ để xây dựng các ứng dụng tiện ích như tra cứu từ điển (giống google suggest), tự động sao lưu văn bản đang soạn (auto save), tự động sao lưu các giá trị form đang nhập...</md:abstract>
+  <md:uuid>b35e2615-2999-48a3-912b-581f0464693a</md:uuid>
+</metadata>
+
+<content>
+    <section id="id-55292770856">
+      <title>Mô tả ứng dụng</title>
+      <para id="id3322991">Dưới đây là màn hình module phần mềm từ điển trực tuyến sử dụng <emphasis>công nghệ AJAX</emphasis> 
+<link target-id="id3323027">Lien ket </link></para>
+      <figure id="id3323005"><media id="id8599777" alt=""><image src="../../media/graphics1-7f53.png" mime-type="image/png" height="345" width="442"/></media>
+<caption> vidu </caption>
+      </figure>
+      <para id="id3323027">Người dùng gõ vào một từ cần tra cứu bất kỳ, sau mỗi ký tự được nhập vào ô tra cứu, danh sách các từ trong CSDL từ điển có các ký tự tương ứng ngay lập tức hiện ra trong một danh sách đổ xuống, giúp người dùng dễ dàng nhập liệu và lựa chọn (giống cách làm việc của Google Suggest)</para>
+      <para id="id3323044">Sau khi có từ cần tra cứu, người dùng nhấn ok, nghĩa của từ đó ngay lập tức hiện ra phía dưới (không cần reload lại trang)</para>
+      <figure id="id3323057"><media id="id6047486" alt=""><image src="../../media/graphics2-738c.png" mime-type="image/png" height="150" width="266"/></media>
+      <caption> hinh minh hoa 2</caption></figure>
+      <para id="id3323079">Phía người dùng chỉ biết đến 1 trang duy nhất là index.html. Hậu trường của ứng dụng là cơ chế Ajax được thực hiện trong các file javascript included và các file asp hỗ trợ truy xuất CSDL qua các tham số gửi theo đường XMLHTTPRequest từ file ajax.js và ajax_search.js. </para>
+    </section>
+    <section id="id-915555801134">
+      <title>Mã nguồn minh họa</title>
+      <para id="id3323125">Đoạn code minh họa đơn giản dưới đây (viết trên ASP và CSDL Access) sẽ giúp bạn hiểu rõ hơn cơ chế này.</para>
+      <section id="id-541300836696">
+        <title>Tệp index.html</title>
+        <para id="id3323141">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</para>
+        <para id="id3323149">&lt;html lang="en-US"&gt;</para>
+        <para id="id3323153">&lt;head&gt;</para>
+        <para id="id3323158">&lt;style type="text/css" media="screen"&gt;</para>
+        <para id="id3323169">body {</para>
+        <para id="id3323176">font: 11px arial;}</para>
+        <para id="id3323185">.suggest_link {</para>
+        <para id="id3323192">background-color: #FFFFFF;</para>
+        <para id="id3323201">padding: 2px 6px 2px 6px;}</para>
+        <para id="id3323211">.suggest_link_over {</para>
+        <para id="id3323218">background-color: #3366CC;</para>
+        <para id="id3323227">padding: 2px 6px 2px 6px;}</para>
+        <para id="id3323237">#search_suggest {</para>
+        <para id="id3323245">position: absolute; </para>
+        <para id="id3328661">background-color: #FFFFFF; </para>
+        <para id="id3328669">text-align: left; </para>
+        <para id="id3328678">border: 1px solid #000000;}</para>
+        <para id="id3328692">label {</para>
+        <para id="id3328702">width:4em;</para>
+        <para id="id3328710">folat:left</para>
+        <para id="id3328717">text-allign:right;</para>
+        <para id="id3328724">margin-right:0.5em;</para>
+        <para id="id3328732">display:block;}</para>
+        <para id="id3328741">.submit input{</para>
+        <para id="id3328747">margin-left:4.5em;}</para>
+        <para id="id3328755">fieldset{</para>
+        <para id="id3328762">boder:1px solid #781351;</para>
+        <para id="id3328770">width:20em;}</para>
+        <para id="id3328779">Legend {</para>
+        <para id="id3328790">color:#fff;</para>
+        <para id="id3328797">background:#ffa20c;</para>
+        <para id="id3328804">border:1px solid #781351;</para>
+        <para id="id3328812">padding:2px 6px}</para>
+        <para id="id3328820">&lt;/style&gt;</para>
+        <para id="id3328827">&lt;script language="JavaScript" type="text/javascript"</para>
+        <para id="id3328833">src="ajax_search.js"&gt;&lt;/script&gt;</para>
+        <para id="id3328839">&lt;script language="JavaScript" type="text/javascript" src="ajax.js"&gt;&lt;/script&gt;</para>
+        <para id="id3328846">&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"&gt;</para>
+        <para id="id3328852">&lt;/head&gt;</para>
+        <para id="id3328858">&lt;body&gt;</para>
+        <para id="id3328863">&lt;fieldset&gt;&lt;legend&gt;Từ điển thuật ngữ Tin học&lt;/legend&gt;</para>
+        <para id="id3328872">&lt;p&gt;Tính năng: &lt;br&gt;&amp;nbsp;1. Tự động gợi ý các từ có trong từ điển tương ứng với chữ cái gõ vào&lt;br&gt;&amp;nbsp;2. Hiển thị nhanh chóng nghĩa của từ trong ô mà không cần reload lại cả trang &lt;/p&gt;</para>
+        <para id="id3328891">&lt;p&gt;Mời bạn nhập thuật ngữ tin học cần tra cứu trong ô dưới đây:&lt;br&gt;&amp;nbsp;&lt;/p&gt;</para>
+        <para id="id3328901">&lt;/fieldset&gt;</para>
+        <para id="id3328906">&lt;form name=frmSearch id="frmSearch" method=get&gt;</para>
+        <para id="id3328911">&lt;input type="text" id="formWord" name="formWord" alt="Search Criteria" onkeyup="searchSuggest();" autocomplete="off" /&gt;</para>
+        <para id="id3328920">&lt;input type="button" value="OK" </para>
+        <para id="id3328931">onclick="sndUserCheck(document.frmSearch.formWord.value);"&gt; &lt;/td&gt;&lt;br&gt;</para>
+        <para id="id3328937">&lt;div id="search_suggest"&gt;&lt;/div&gt;</para>
+        <para id="id3328947">&lt;/form&gt;</para>
+        <para id="id3328951">&lt;p&gt;&lt;/p&gt;</para>
+        <para id="id3328956">&lt;fieldset style="width: 220; height: 39"&gt;</para>
+        <para id="id3328964">&lt;legend&gt;Nghĩa từ&lt;/legend&gt;</para>
+        <para id="id3328971">&lt;div id="TakenOrNot"&gt;&lt;/div&gt;</para>
+        <para id="id3328980">&lt;/fieldset&gt;</para>
+        <para id="id3328984">&lt;/body&gt;</para>
+        <para id="id3328992">&lt;/html&gt;</para>
+      </section>
+      <section id="id-957160875943">
+        <title>Tệp ajax.js</title>
+        <para id="id3329012">function createRequestObject()</para>
+        <para id="id3329016">{</para>
+        <para id="id3329020">var ro;</para>
+        <para id="id3329030">var browser = navigator.appName;</para>
+        <para id="id3329037">if(browser == "Microsoft Internet Explorer") {</para>
+        <para id="id3329045">// on IE, we have to use ActiveX</para>
+        <para id="id3329050">ro = new ActiveXObject("Microsoft.XMLHTTP");</para>
+        <para id="id3329058">} else {</para>
+        <para id="id3329065">// on every other browser, we can directly create a new XMLHttpRequest object</para>
+        <para id="id3329077">ro = new XMLHttpRequest();</para>
+        <para id="id3329084">}</para>
+        <para id="id3329092">return ro;</para>
+        <para id="id3329099">}</para>
+        <para id="id3329103">var http = createRequestObject();</para>
+        <para id="id3329107">// this function should be called for user input</para>
+        <para id="id3329112">// the response in this case is formatted as follows:</para>
+        <para id="id3329117">// object|text</para>
+        <para id="id3329122">// where object is the id of the HTML element we are going to update</para>
+        <para id="id3329127">// and text is what it will be updated to</para>
+        <para id="id3329131">// this could obviously work a lot better with some XML</para>
+        <para id="id3329137">function handleResponse()</para>
+        <para id="id3329141">{</para>
+        <para id="id3329145">if(http.readyState == 4) {</para>
+        <para id="id3329150">var response = http.responseText;</para>
+        <para id="id3329157">var update = new Array();</para>
+        <para id="id3329165">if(response.indexOf('|' != -1)) {</para>
+        <para id="id3329172">update = response.split("|");</para>
+        <para id="id3329179">document.getElementById(update[0]).innerHTML = update[1];</para>
+        <para id="id3329188">}</para>
+        <para id="id3330745">}</para>
+        <para id="id3330752">}</para>
+        <para id="id3330756">// this function should be called for user input</para>
+        <para id="id3330761">// it opens up the usercheck.asp page with a querystring of 'action'</para>
+        <para id="id3330767">function sndUserCheck(action)</para>
+        <para id="id3330771">{</para>
+        <para id="id3330775">http.open("get", "searchMeaning.asp?formWord=" + action);</para>
+        <para id="id3330780">http.onreadystatechange = handleResponse;</para>
+        <para id="id3330787">http.send(null);</para>
+        <para id="id3330795">}</para>
+      </section>
+      <section id="id-42456965308">
+        <title>Tệp ajax_search.js</title>
+        <para id="id3330818">//Gets the browser specific XmlHttpRequest Object</para>
+        <para id="id3330823">function getXmlHttpRequestObject() {</para>
+        <para id="id3330827">if (window.XMLHttpRequest) {</para>
+        <para id="id3330833">return new XMLHttpRequest();</para>
+        <para id="id3330840">} else if(window.ActiveXObject) {</para>
+        <para id="id3330845">return new ActiveXObject("Microsoft.XMLHTTP");</para>
+        <para id="id3330853">} else {</para>
+        <para id="id3330861">alert("Your Browser Sucks!\nIt's about formWorde to upgrade don't you think?");</para>
+        <para id="id3330866">}</para>
+        <para id="id3330872">}</para>
+        <para id="id3330876">//Our XmlHttpRequest object to get the auto suggest</para>
+        <para id="id3330881">var searchReq = getXmlHttpRequestObject();</para>
+        <para id="id3330885">//Called from keyup on the search textbox.</para>
+        <para id="id3330889">//Starts the AJAX request.</para>
+        <para id="id3330893">function searchSuggest() {</para>
+        <para id="id3330898">if (searchReq.readyState == 4 || searchReq.readyState == 0) {</para>
+        <para id="id3330904">var str = escape(document.getElementById('formWord').value);</para>
+        <para id="id3330912">searchReq.open("GET", 'searchSuggest.asp?formWord=' + str, true);</para>
+        <para id="id3330919">searchReq.onreadystatechange = handleSearchSuggest; </para>
+        <para id="id3330927">searchReq.send(null);</para>
+        <para id="id3330933">}</para>
+        <para id="id3330941">}</para>
+        <para id="id3330945">//Called when the AJAX response is returned.</para>
+        <para id="id3330950">function handleSearchSuggest() {</para>
+        <para id="id3330955">if (searchReq.readyState == 4) {</para>
+        <para id="id3330961">var ss = document.getElementById('search_suggest')</para>
+        <para id="id3330968">ss.innerHTML = '';</para>
+        <para id="id3330974">var str = searchReq.responseText.split("&lt;br&gt;");</para>
+        <para id="id3330982">for(i=0; i &lt; str.length - 1; i++) {</para>
+        <para id="id3330990">//Build our element string. This is cleaner using the DOM, but</para>
+        <para id="id3330998">//IE doesn't support dynamically added attributes.</para>
+        <para id="id3331003">var suggest = '&lt;div onmouseover="javascript:suggestOver(this);" ';</para>
+        <para id="id3331012">suggest += 'onmouseout="javascript:suggestOut(this);" ';</para>
+        <para id="id3331019">suggest += 'onclick="javascript:setSearch(this.innerHTML);" ';</para>
+        <para id="id3331027">suggest += 'class="suggest_link"&gt;' + str[i] + '&lt;/div&gt;';</para>
+        <para id="id3331034">ss.innerHTML += suggest;</para>
+        <para id="id3331041">}</para>
+        <para id="id3331047">}</para>
+        <para id="id3331053">}</para>
+        <para id="id3331057">//Mouse over function</para>
+        <para id="id3331061">function suggestOver(div_value) {</para>
+        <para id="id3331066">div_value.className = 'suggest_link_over';</para>
+        <para id="id3331071">}</para>
+        <para id="id3331076">//Mouse out function</para>
+        <para id="id3331080">function suggestOut(div_value) {</para>
+        <para id="id3331085">div_value.className = 'suggest_link';</para>
+        <para id="id3331090">}</para>
+        <para id="id3331094">//Click function</para>
+        <para id="id3331099">function setSearch(value) {</para>
+        <para id="id3331104">document.getElementById('formWord').value = value;</para>
+        <para id="id3331110">document.getElementById('search_suggest').innerHTML = '';</para>
+        <para id="id3331116">}</para>
+      </section>
+      <section id="id-397177378055">
+        <title>Tệp search_suggest.asp</title>
+        <para id="id3331136">&lt;%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%&gt;</para>
+        <para id="id3331141">&lt;head&gt;</para>
+        <para id="id3331145">&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"&gt;</para>
+        <para id="id3331152">&lt;title&gt;Module tu dien&lt;/title&gt;</para>
+        <para id="id3331157">&lt;/head&gt;</para>
+        <para id="id3331162">&lt;%</para>
+        <para id="id3331166">//Writen by Minhdn</para>
+        <para id="id3331176">//Lay bien search bang request, sau do search trong CSDL</para>
+        <para id="id3331183">//nhung dong nao co title like bien search thi lay ra</para>
+        <para id="id3331190">%&gt;</para>
+        <para id="id3331194">&lt;!--#include file="connection.asp"--&gt;</para>
+        <para id="id3331200">&lt;%///Make sure that a value was sent.</para>
+        <para id="id3331205">formWord=request("formWord")</para>
+        <para id="id3331211">//Get every page title for the site.</para>
+        <para id="id3331216">if len(formWord)&gt;=1 then</para>
+        <para id="id3331222">str = "SELECT * FROM dictionary WHERE word like '"&amp;formWord&amp;"%' ORDER BY word"</para>
+        <para id="id3331229">rs.open str,conn</para>
+        <para id="id3331235">do until rs.eof%&gt;</para>
+        <para id="id3331241"> &lt;%=rs("word")%&gt;&lt;br&gt;</para>
+        <para id="id3331247">&lt;%rs.movenext</para>
+        <para id="id3331254">loop</para>
+        <para id="id3331259">rs.close</para>
+        <para id="id3331265">set rs=nothing</para>
+        <para id="id3331270">end if</para>
+        <para id="id3331276">%&gt;</para>
+      </section>
+      <section id="id-711614799105">
+        <title>Tệp Search_mearning.asp</title>
+        <para id="id3332117">&lt;%@LANGUAGE="VBSCRIPT" CODEPAGE="65001"%&gt;</para>
+        <para id="id3332122">dim strConn, dbConn, RS </para>
+        <para id="id3332131">set dbconn= server.createObject("ADODB.connection")</para>
+        <para id="id3332139">dbConn.Open "PROVIDER=MSDASQL;DRIVER={Microsoft Access Driver (*.mdb)};DBQ=" &amp; Server.Mappath("dictionary.mdb") </para>
+        <para id="id3332149">set rs = server.createobject("ADODB.recordset")</para>
+        <para id="id3332154">'query the database</para>
+        <para id="id3332160">str="SELECT * FROM dictionary WHERE word = '" &amp; </para>
+        <para id="id3332167">request.querystring("formWord")&amp;"'"</para>
+        <para id="id3332172">set RS = dbConn.execute(str)</para>
+        <para id="id3332178">'is this name taken or not</para>
+        <para id="id3332183">if not RS.eof then</para>
+        <para id="id3332187">response.write "TakenOrNot|&lt;b&gt;"&amp;request.querystring("formWord") &amp;": &lt;/b&gt;&lt;br&gt;"&amp;rs("meaning")</para>
+        <para id="id3332194">else</para>
+        <para id="id3332202">response.write "TakenOrNot|Thong bao: " &amp; "Khong co tu nay"</para>
+        <para id="id3332207">'end if</para>
+        <para id="id3332211">end if</para>
+        <para id="id3332216">%&gt;</para>
+        <para id="id3332220">Tương tự như vậy, các ứng dụng kiểm tra tên đăng nhập (người dùng chọn tên đăng nhập và check xem tên đó đã có chưa), tự động sao lưu văn bản đang soạn thảo (auto save), tự động sao lưu nội dung làm việc của người dùng (ví dụ điền form)… cũng được thực hiện thông qua cơ chế này.</para>
+        <para id="id3332234">Chúc các bạn thành công</para>
+      </section>
+    </section>
+  </content>
+</document>

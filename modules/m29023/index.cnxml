@@ -1,0 +1,284 @@
+<document xmlns="http://cnx.rice.edu/cnxml" xmlns:md="http://cnx.rice.edu/mdml">
+  <title>Xây dựng ứng dụng WAP với IIS và ASP</title>
+  <metadata>
+  <md:content-id>m29023</md:content-id><md:title>Xây dựng ứng dụng WAP với IIS và ASP</md:title>
+  <md:abstract>WAP, viết tắt của Wireless Application Protocol (Giao thức ứng dụng không dây), kế thừa các chuẩn Internet (HTML, XML và TCP/IP), cho phép các thiết bị cầm tay có thể kết nối tới Server truy xuất thông tin và các dịch vụ. Giao thức này được thiết kế cho các trình duyệt siêu nhỏ (micro browser) dùng ngôn ngữ đánh dấu WML (Wireless Markup Language). Công nghệ WAP đang là công nghệ chuẩn chủ đạo cho các ứng dụng trên các thiết bị không dây như điện thoại di động. 
+Một số ứng dụng WAP điển hình đang được áp dụng: đặt vé; kiểm tra email; xem dự báo thời tiết, tỉ giá, giá cổ phiếu; xem kết quả bóng đá; tra cứu danh bạ điện thoại…</md:abstract>
+  <md:uuid>176028ca-5753-4bf0-93d4-b7bec0648792</md:uuid>
+</metadata>
+
+<content>
+    <para id="id3560133"><emphasis>Xây dựng ứng dụng WAP với IIS và ASP</emphasis></para>
+    <para id="id3560144"><emphasis>Đỗ Ngọc Minh</emphasis></para>
+    <para id="id3560149">Viện CNTT, ĐH Quốc Gia Hà Nội</para>
+    <para id="id3560157">Email: minhdn@vnu.edu.vn</para>
+    <para id="id3560162"><emphasis>1. Giới thiệu</emphasis></para>
+    <para id="id3560169">WAP là viết tắt của Wireless Application Protocol (Giao thức ứng dụng không dây), được kế thừa các chuẩn Internet (HTML, XML và TCP/IP), cho phép các thiết bị cầm tay có thể kết nối tới Server truy xuất thông tin và các dịch vụ. Giao thức này được thiết kế cho các trình duyệt siêu nhỏ (micro browser) nhờ sử dụng ngôn ngữ đánh dấu WML (Wireless Markup Language). WML được định nghĩa như là ứng dụng XML 1.0</para>
+    <para id="id3560216">Công nghệ Wap ra đời vào năm 1997 bởi Wap forum (<link url="http://www.wapforum.org/">www.wapforum.org</link>), bao gồm Ericsson, Motorola, Nokia, và Unwired Planet. Công nghệ Wap đang là công nghệ chuẩn chủ đạo cho các ứng dụng phục vụ trên các thiết bị không dây như các điện thoại di động kỹ thuật số. Phiên bản mới nhất gần đây là phiên bản Wap 2.0.</para>
+    <para id="id3560252">Các nhà cung cấp dịnh vụ Internet hiện nay không những chú trọng phát triển, cập nhật thông tin cho Website của họ mà còn rất chú trọng tới các thông tin dành cho WAP. Với sự ra đời của ngày càng nhiều các loại điện thoại có khả năng hỗ trợ Wap cùng với sự phát triển của hệ thống thông tin di động, chắc chắn Wap sẽ có một vai trò quan trọng trong xã hội hiện đại.</para>
+    <para id="id3560275">Một số ứng dụng Wap điển hình đang được áp dụng:</para>
+    <list id="id3560285" list-type="bulleted">
+      <item>Kiểm tra thông tin về chỗ trên tàu.</item>
+      <item>Đặt mua vé</item>
+      <item>Kiểm tra chuyến bay</item>
+      <item>Xem dự báo thời tiết</item>
+      <item>Xem giá cổ phiếu</item>
+      <item>Tra cứu danh bạ điện thoại</item>
+      <item>Check mail</item>
+      <item>Xem kết quả bóng đá…</item>
+    </list>
+    <section id="id-921676390548">
+      <title>Các trình duyệt Wap siêu nhỏ (WAP Micro Browsers)</title>
+      <para id="id3560347">Để vừa vặn hiển thị các trang thông tin lên các thiết bị không dây cỡ nhỏ, Wap sử dụng trình duyệt siêu nhỏ.</para>
+      <para id="id3560357">Một trình duyệt siêu nhỏ thực chất là một phần mềm nhỏ tốn rất ít tài nguyên bộ nhớ cũng như các yêu cầu về phần cứng và CPU. Nó có thể hiển thị thông tin nhờ ngôn ngữ đánh dấu gọi là WML</para>
+      <para id="id3560372">Trình duyệt siêu nhỏ cũng có khả năng thông dịch các phiên bản thu nhỏ của Java Script, gọi là WML Script.</para>
+      <para id="id3560381">Một số các trình duyệt Wap thông dụng hiện nay như: Klondike, Deck-it, Gelon…Có thể download các phần mềm trình duyệt này về để thực thi và hiển thị các trang wml trên máy tính của bạn từ các địa chỉ sau: </para>
+      <para id="id3560397">Deck-it: <link url="http://www.Pyweb.com/">http://www.Pyweb.com</link></para>
+      <para id="id3560414">Klondike: <link url="http://www.apachesoftware.com/">http://www.apachesoftware.com</link> …</para>
+      <para id="id3560435">Gelon: <link url="http://www.gelon.net/">http://www.gelon.net</link></para>
+    </section>
+    <section id="id-847091082038">
+      <title>WML là gì?</title>
+      <para id="id3560465">WML là viết tắt của Wireless Markup Language. Nó là ngôn ngữ đánh dấu kế thừa từ HTML, tuy nhiên WML dựa trên XML, do đó nó chặt chẽ hơn HTML.</para>
+      <para id="id3560504">WML được sử dụng để tạo ra các trang có khả năng hiển thị trên WAP browser. Các trang trên WML gọi là DECKS. Decks được thiết lập bởi tập hợp các CARDS.</para>
+      <para id="id3560515">Ví dụ một trang WML :</para>
+      <para id="id3560523">&lt;?xml version="1.0"?&gt;</para>
+      <para id="id3560528">&lt;!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN"</para>
+      <para id="id3560534">"http://www.wapforum.org/DTD/wml_1.1.xml"&gt;</para>
+      <para id="id3560540">&lt;wml&gt;</para>
+      <para id="id3560544">&lt;card id="card1" title="Minh hoa card 1"&gt;</para>
+      <para id="id3560549">&lt;p&gt;</para>
+      <para id="id3560554">Chao ban da den voi wml</para>
+      <para id="id3560558">&lt;/p&gt;</para>
+      <para id="id3560562">&lt;/card&gt;</para>
+      <para id="id3560567">&lt;/wml&gt;</para>
+      <para id="id3560571">Bạn có thể tham khảo thêm về cú pháp của WML tại địa chi <link url="http://www.w3schools.com/wap">www.w3schools.com/wap</link> .</para>
+      <table id="id3560595" summary="">
+        <tgroup cols="2">
+          <colspec colnum="1" colname="c1"/>
+          <colspec colnum="2" colname="c2"/>
+          <tbody>
+            <row>
+              <entry><media id="id1170982927611" alt=""><image src="../../media/graphics1-5b21.png" mime-type="image/png"/></media>Trang wml này sau khi save vào đĩa và hiển thị nhờ Klondike (Trình duyệt này cho phép mở trực tiếp trang wml bình thường như mở 1 file )</entry>
+              <entry><media id="id1170982673651" alt=""><image src="../../media/graphics2-a8fb.png" mime-type="image/png"/></media>Hiển thị nhờ Deck-it: </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      <para id="element-713"/><para id="id3560699">Một số so sánh minh họa sự khác biệt giữa HTML và WML</para>
+      <table id="id3560705" summary="">
+        <tgroup cols="2">
+          <colspec colnum="1" colname="c1"/>
+          <colspec colnum="2" colname="c2"/>
+          <tbody>
+            <row>
+              <entry>HTML</entry>
+              <entry>WML</entry>
+            </row>
+            <row>
+              <entry>- Các trang có đuôi .htm hoặc .html- Hiển thị nhờ trình duyệt Web (Web browser)IE, Netscape, Opera …</entry>
+              <entry>- Các trang có đuôi .wml- Hiển thị nhờ trình duyệt Wap (Wap browser)Klondike, Deck-it, Gelon…</entry>
+            </row>
+            <row>
+              <entry>Cú pháp không chặt chẽ </entry>
+              <entry>Cú pháp rất chặt chẽ do sử dụng công nghệ XML</entry>
+            </row>
+            <row>
+              <entry>Một trang html được gọi là 1 Web page</entry>
+              <entry>Một trang wml đựợc gọi là một card</entry>
+            </row>
+            <row>
+              <entry>Sử dụng Java Script để chạy các ứng dụng đơn giản trên ClientMã Java Script có thể được trộn lẫn trong mã HTML</entry>
+              <entry>Sử dụng WML Script (chính là Java Script thu gọn)Mã WML Script phải nằm ngoài trang WML.</entry>
+            </row>
+            <row>
+              <entry>Cho phép hiển thị thông tin cực kỳ đa dạng, phong phú (Các hiệu ứng âm thanh hình ảnh…)</entry>
+              <entry>Bị giới hạn bởi màn hình thiết bị (thường là rất bé), nếu có hiển thị ảnh thì cũng phải sử dụng format riêng, ví dụ WBMP có kích thước và dung lượng file rất nhỏ, ngoài ra, đây là ảnh đen trắng.</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      <para id="id3549081">2. Cấu hình phần mềm máy chủ IIS (Internet Information Servies) cho phép thực thi chức năng của Wap Server</para>
+      <para id="id3549093">Như ta đã biết, từ Windows 2000, IIS được tích hợp sẵn trong bộ cài và là một thành phần cài đặt tùy chọn (option). Các cấu hình mặc định trong IIS cho phép IIS là 1 server phục vụ các ứng dụng Web, tuy nhiên muốn IIS của ta có thêm khả năng phục vụ các ứng dụng Wap, cần thêm một số thông số như sau:</para>
+      <list id="id3549110" list-type="enumerated">
+        <item>Từ menu Start, chọn Setting - Control Panel – Administrative tools - Internet Services Manager. Mở rộng dấu + ở tên máy và click chuột phải vào default web site</item>
+        <item>Lựa chọn properties. </item>
+        <item>Chọn Tab HTTP headers, ở mục MIME map, chọn file types</item>
+        <item>Click New Type. </item>
+        <item>Gõ wml vào ô Extension </item>
+        <item>Gõ text/vnd.wap.wml vào ô Content MIME. </item>
+        <item>Lặp lại các bước từ 4 đến 6 và gõ vào các thông số theo bảng sau</item>
+      </list>
+      <table id="id3549203" summary="">
+        <tgroup cols="2">
+          <colspec colnum="1" colname="c1"/>
+          <colspec colnum="2" colname="c2"/>
+          <tbody>
+            <row>
+              <entry namest="c1" nameend="c2">Bảng 1: MIME Types and File Extensions</entry>
+            </row>
+            <row>
+              <entry>Type</entry>
+              <entry>File Extension</entry>
+            </row>
+            <row>
+              <entry>text/vnd.wap.wml</entry>
+              <entry>.wml</entry>
+            </row>
+            <row>
+              <entry>application/vnd.wap.wmlc</entry>
+              <entry>.wmlc</entry>
+            </row>
+            <row>
+              <entry>text/vnd.wap.wmlscript</entry>
+              <entry>.wmls</entry>
+            </row>
+            <row>
+              <entry>application/vnd.wap.wmlscriptc</entry>
+              <entry>.wmlsc</entry>
+            </row>
+            <row>
+              <entry>Image/vnd.wap.wbmp</entry>
+              <entry>.wbmp</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      <para id="id3549368">Để xây dựng các ứng dụng WML cho phép tương tác với người sử dụng giống như công việc xây dựng trang Web động ta cũng lựa chọn công nghệ ASP (Active Server Pages) cho phép thực thi các ứng dụng trên máy chủ trước khi trả lời Client. Nếu bạn đã từng sử dụng ASP cho các ứng dụng Web thì bạn sẽ thấy một điều cơ bản là ASP sau khi thực thi trên máy chủ sẽ trả về cho Client mã HTML là mã mà trình duyệt có thể hiểu được. Như vậy, khi chuyển sang xây dựng ứng dụng trên WML, để hiển thị được trang trả về trên wap browser thì bạn chỉ cần chỉ định ASP trả về mã WML là xong. Các thao tác còn lại giống hệt như truy xuất Web động. </para>
+      <para id="id3549403">Hiện tại WML của ta vẫn ở trạng thái tĩnh, ta cần phải thêm vào asp.dll để IIS có khả năng tạo ra văn bản wml. Để làm điều này, trong mục Properties của Default webserver, chọn tab Home Dỉectory, Click Configuration, bảng sau hiện ra:</para>
+      <figure id="id3549423">
+        <media id="id4317783" alt=""><image src="../../media/graphics3.png" mime-type="image/png" height="467" width="423"/></media>
+      </figure>
+      <para id="id3549445">ta chọn add, sau đó điền các nội dung vào bảng Add/Edit Application Extension Mapping như sau:</para>
+      <figure id="id3549459">
+        <media id="id1170982786834" alt=""><image src="../../media/graphics4.png" mime-type="image/png" height="253" width="447"/></media>
+      </figure>
+      <para id="id3549481">Như vậy là ta đã cấu hình xong IIS, ngoài ra ở trên đầu mỗi trang asp, muốn hiển thị trên wap browser ta cần thêm đoạn lệnh sau:</para>
+      <para id="id3549493">&lt;% response.ContentType = "text/vnd .wap.wml" %&gt;</para>
+      <para id="id3549499">Sau khi cấu hình máy chủ, ta có thể tạo riêng 1 thư mục trên ổ C, ví dụ: C:\WAP-applications, sau đó chép file wml ở trên đặt tên file là index.wml. Ngoài ra, ta gõ thêm file sau và đặt tên là index.asp</para>
+      <para id="id3549527">&lt;% response.ContentType = "text/vnd.wap.wml" %&gt;</para>
+      <para id="id3549532">&lt;?xml version="1.0"?&gt;</para>
+      <para id="id3549537">&lt;wml&gt;</para>
+      <para id="id3549541">&lt;card id="card1" title="Minh hoa asp"&gt;</para>
+      <para id="id3549546">&lt;p&gt;</para>
+      <para id="id3549550">&lt;%response.write("Chao ban")%&gt;</para>
+      <para id="id3549556">&lt;/p&gt;</para>
+      <para id="id3549560">&lt;/card&gt;</para>
+      <para id="id3549564">&lt;/wml&gt;</para>
+      <para id="id3549568">Thiết đặt đường dẫn ảo (Virtual directory) tới thư mục này mang tên wap, sau đó khởi động trình duyệt Wap, gõ vào ô địa chỉ dòng chữ: <link url="http://localhost/wap/index.wml">http://localhost/wap/index.wml</link> và <link url="http://localhost/wap/index.asp">http://localhost/wap/index.asp</link> Nếu cả hai trường hợp trên màn hình trình duyệt hiện ra nội dung Chao ban có nghĩa là máy chủ của ta đã sẵn sàng để chạy các ứng dụng tiếp theo.</para>
+      <para id="id3549625">3. Minh họa ứng dụng hiển thị và cập nhật CSDL qua Wap Browser</para>
+      <para id="id3549632">3.1. Chúng ta cùng nhau xây dựng một ứng dụng nhỏ cho phép hiển thị CSDL là 1 danh sách bao gồm tên và số điện thoại tương ứng của người đó. CSDL của ta được tạo trên Access, có tên là danhba.mdb, gồm 1 bảng danhsach và 2 trường ten (kiểu text) và dienthoai(kiểu số) như sau:</para>
+      <table id="id3549650" summary="">
+        <tgroup cols="2">
+          <colspec colnum="1" colname="c1"/>
+          <colspec colnum="2" colname="c2"/>
+          <tbody>
+            <row>
+              <entry namest="c1" nameend="c2">Table: danhsach</entry>
+            </row>
+            <row>
+              <entry>Ten</entry>
+              <entry>Text</entry>
+            </row>
+            <row>
+              <entry>Dienthoai</entry>
+              <entry>Number</entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+      <para id="id3549732">Các file ta sẽ xây dựng tương ứng gồm:</para>
+      <para id="id3549742">Display.asp cho phép hiển thị CSDL</para>
+      <para id="id3549751">Form.wml cho phép nhập dữ liệu</para>
+      <para id="id3549761">Insert.asp cho phép cập nhật dữ liệu từ form vào CSDL</para>
+      <para id="id3549771">3.2. Mã nguồn từng file tương ứng:</para>
+      <para id="id3549781">Display.asp</para>
+      <para id="id3549785">&lt;% Response.ContentType = "text/vnd.wap.wml" %&gt;</para>
+      <para id="id3549791">&lt;?xml version="1.0" encoding="iso-8859-1"?&gt;</para>
+      <para id="id3549797">&lt;!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN" "http://www.wapforum.org/DTD/wml_1.1.xml"&gt;</para>
+      <para id="id3549804">&lt;wml&gt;</para>
+      <para id="id3549808">&lt;!-- MAIN CARD--&gt;</para>
+      <para id="id3549813">&lt;card id="Danhbadt"&gt;</para>
+      <para id="id3549817">&lt;p align="left"&gt;&lt;small&gt;&lt;b&gt;Danh ba DT &lt;/b&gt;&lt;/small&gt;&lt;/p&gt;</para>
+      <para id="id3549822">&lt;% </para>
+      <para id="id3549827">strconn = "DRIVER=Microsoft Access Driver (*.mdb);DBQ=" &amp; Server.MapPath("danhba.mdb")</para>
+      <para id="id3549833">set conn = server.createobject("ADODB.Connection")</para>
+      <para id="id3549838">conn.open strconn</para>
+      <para id="id3549842">set rs = server.createobject("adodb.recordset") </para>
+      <para id="id3549847">Query = "Select * from danhsach"</para>
+      <para id="id3549852">rs.open Query, conn</para>
+      <para id="id3549856">if not rs.eof Then rs.movefirst</para>
+      <para id="id3549860">Do While NOt Rs.EOF </para>
+      <para id="id3549865">%&gt;</para>
+      <para id="id3549869">&lt;p align="left"&gt;</para>
+      <para id="id3549873">&lt;small&gt;</para>
+      <para id="id3549878">&lt;h2&gt;&lt;%=rs("ten")%&gt;&lt;/h2&gt;</para>
+      <para id="id3549883">&lt;%=rs("dienthoai")%&gt;&lt;br/&gt;</para>
+      <para id="id3549888">&lt;/small&gt;</para>
+      <para id="id3549893">&lt;/p&gt;</para>
+      <para id="id3549897">&lt;% </para>
+      <para id="id3549901">rs.movenext</para>
+      <para id="id3549905">Loop </para>
+      <para id="id3549909">else</para>
+      <para id="id3549913">response.write("&lt;p align='left'&gt;&lt;small&gt;D.sach chua co ai&lt;/small&gt;&lt;/p&gt;")</para>
+      <para id="id3549922">End if</para>
+      <para id="id3549926">rs.close</para>
+      <para id="id3549930">Set conv = nothing</para>
+      <para id="id3549935">set rs= nothing</para>
+      <para id="id3549939">set conn = nothing</para>
+      <para id="id3549944">%&gt;</para>
+      <para id="id3549948">&lt;/card&gt;</para>
+      <para id="id3549952">&lt;/wml&gt;</para>
+      <para id="id3549957">Form.wml</para>
+      <para id="id3549961">&lt;?xml version="1.0"?&gt;</para>
+      <para id="id3549965">&lt;!DOCTYPE wml PUBLIC "-//WAPFORUM//DTD WML 1.1//EN"</para>
+      <para id="id3549971">"http://www.wapforum.org/DTD/wml_1.1.xml"&gt;</para>
+      <para id="id3549977">&lt;wml&gt;</para>
+      <para id="id3549981">&lt;card title="Input"&gt;</para>
+      <para id="id3549985">&lt;p&gt;</para>
+      <para id="id3549989">Ten: &lt;input type="text" name="ten" size="15"/&gt;&lt;br/&gt; </para>
+      <para id="id3549995">Dienthoai: &lt;input type="text" name="dienthoai" size="15"/&gt;</para>
+      <para id="id3550003">&lt;/p&gt;</para>
+      <para id="id3550007">&lt;do type="accept" label="Send"&gt;</para>
+      <para id="id3550012">&lt;go href="insert.asp" method="post"&gt;</para>
+      <para id="id3550024"> &lt;postfield name="ten" value="$ten"/&gt;</para>
+      <para id="id3550035"> &lt;postfield name="coquan" value="$coquan"/&gt;</para>
+      <para id="id3550046"> &lt;postfield name="dienthoai" value="$dienthoai"/&gt;</para>
+      <para id="id3550057">&lt;/go&gt;</para>
+      <para id="id3550064">&lt;/do&gt;</para>
+      <para id="id3550071">&lt;/card&gt; </para>
+      <para id="id3550076">&lt;/wml&gt;</para>
+      <para id="id3550080">Insert.asp</para>
+      <para id="id3550084">&lt;%</para>
+      <para id="id3550088">Dim adoCon </para>
+      <para id="id3550095">Dim rsAddnew </para>
+      <para id="id3550100">Dim strSQL </para>
+      <para id="id3550107">set rs = server.createobject("adodb.recordset") </para>
+      <para id="id3550112">Set adoCon = Server.CreateObject("ADODB.Connection") </para>
+      <para id="id3550118">adoCon.Open "DRIVER={Microsoft Access Driver (*.mdb)}; DBQ=" &amp; Server.MapPath("danhba.mdb") </para>
+      <para id="id3550125">Set rsAddnew = Server.CreateObject("ADODB.Recordset") </para>
+      <para id="id3550130">strSQL = "SELECT * FROM danhsach;"</para>
+      <para id="id3550134">rsAddnew.CursorType = 2 </para>
+      <para id="id3550139">rsAddnew.LockType = 3 </para>
+      <para id="id3550144">rsAddnew.Open strSQL, adoCon </para>
+      <para id="id3550148">rsAddnew.AddNew </para>
+      <para id="id3550153">rsAddnew.Fields("ten") = Request("ten")</para>
+      <para id="id3550157">rsAddnew.Fields("dienthoai") = Request("dienthoai")</para>
+      <para id="id3550163">rsAddnew.Update </para>
+      <para id="id3550169">rsAddnew.Close</para>
+      <para id="id3550173">Set rsAddnew = Nothing</para>
+      <para id="id3550178">Set adoCon = Nothing </para>
+      <para id="id3550184">Response.Redirect "danhbadienthoai.asp"</para>
+      <para id="id3550189">%&gt;</para>
+      <para id="id3550193">&lt;/p&gt;</para>
+      <para id="id3550200">&lt;/card&gt;</para>
+      <para id="id3550205">&lt;/wml&gt;</para>
+      <para id="id3550212">Ghi cả 3 tập tin trên vào thư mục bạn vừa tạo, khởi động Wap browser rồi gõ vào từ trình duyệt <link url="http://localhost/wap/form.wml">http://localhost/wap/form.wml</link> Sau khi bạn nhập tên và số điện thoại rồi submit, nếu màn hình hiển thị tên và số điện thoại bạn vừa nhập thì có nghĩa là bạn đã thành công.</para>
+      <para id="id3550243">Tương tự như vậy, bạn có thể tham khảo thêm cú pháp các thẻ của WML cũng như WML Script để xây dựng cho mình các ứng dụng phong phú hơn. Riêng đối với ứng dụng CSDL bạn vừa làm, bạn có thể thêm chức năng Xóa, sửa và tìm kiếm để chương trình trên trở thành một ứng dụng hoàn chỉnh.</para>
+      
+      <para id="id3550286">Chúc các bạn thành công</para>
+      <para id="id3550294">Tài liệu tham khảo:</para>
+      <para id="id3550302">1. http://www.w3schools.com/wap</para>
+    </section>
+  </content>
+</document>
